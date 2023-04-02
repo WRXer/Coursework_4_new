@@ -69,9 +69,28 @@ def get_top(sorted_vacancies, top_count):
     top = []
     counter = 0
     for v in sorted_vacancies:
-        if counter < 10:
+        if counter < top_count:
             top.append(v)
             counter +=1
         else:
             break
     return top
+
+def filter_vacancies(hh_vacancies, sj_vacancies, filter_words):
+    """
+    Функция фильтрации вакансий по ключевым словам пользователя
+    :param hh_vacancies:
+    :param sj_vacancies:
+    :param filter_words:
+    :return:
+    """
+    list_vacancies = []
+    for i in hh_vacancies:
+        if i['description'] is not None:
+            if filter_words.lower() in i['description'].lower():
+                list_vacancies.append(i)
+    for i in sj_vacancies:
+        if i['description'] is not None:
+            if filter_words.lower() in i['description'].lower():
+                list_vacancies.append(i)
+    return list_vacancies
