@@ -22,8 +22,8 @@ class HH(Engine):
         if response.status_code == 200:
             vacancies = response.json()["items"]
             for vacancy in vacancies:
-                vacancy_data = {'hh': {'name': vacancy['name'], 'url': vacancy['url'],
-                                'description': vacancy['snippet']['requirement'], 'payment': vacancy['salary']}}
+                vacancy_data = {'name': vacancy['name'], 'url': vacancy['url'],
+                                'description': vacancy['snippet']['requirement'], 'payment': vacancy['salary']}
                 vacancies_data.append(vacancy_data)
         else:
             print("Error:", response.status_code)

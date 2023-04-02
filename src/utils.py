@@ -1,4 +1,5 @@
 from src.engine_classes import HH, SuperJob
+from src.jobs_classes import Vacancy, HHVacancy, sorting
 
 import json
 
@@ -20,11 +21,16 @@ class JSONSaver:
 
 
 def main():
-
-    hh = HH('python', 15)
+    hh = HH('python', 35)
     sj = SuperJob('java', 2)
     hh_vacancies = hh.get_request()
     sj_vacancies = sj.get_request()
     json_saver = JSONSaver()
-    json_saver.add_vacancy(hh_vacancies + sj_vacancies)
+    json_saver.add_vacancy(hh_vacancies)
     vacancies = json_saver.data_file()
+    for v in vacancies:
+        vacancy = Vacancy(v['name'], v['url'], v['description'], v['payment'])
+    #print(vacancy)
+    sorted_vacancies = sorting(vacancies)
+    for v in sorted_vacancies:
+        print(v['payment'])
