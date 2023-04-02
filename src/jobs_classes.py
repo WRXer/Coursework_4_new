@@ -64,6 +64,14 @@ def sorting(vacancies):
     sorted_data = sorted(vacancies, key=lambda x: get_avg_salary_range(x['payment']), reverse=True)
     return sorted_data
 
-def get_top(vacancies, top_count):
+def get_top(sorted_vacancies, top_count):
     """ Должен возвращать {top_count} записей из вакансий по зарплате (iter, next magic methods) """
-    pass
+    top = []
+    counter = 0
+    for v in sorted_vacancies:
+        if counter < 10:
+            top.append(v)
+            counter +=1
+        else:
+            break
+    return top
