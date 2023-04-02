@@ -44,7 +44,7 @@ class SuperJob(Engine):
         if response.status_code == 200:
             vacancies = response.json()["objects"]
             for vacancy in vacancies:
-                vacancy_data = {'sj': {'name': vacancy['profession'], 'url': vacancy['link'], 'description': vacancy['candidat'], 'payment': vacancy['payment_from']}}
+                vacancy_data = {'name': vacancy['profession'], 'url': vacancy['link'], 'description': vacancy['candidat'], 'payment': vacancy['payment_from']}
                 vacancies_data.append(vacancy_data)
         #vacancy['candidat'] описание
         #vacancy['payment_from'] зарплата

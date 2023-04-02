@@ -40,7 +40,7 @@ def get_avg_salary_range(payment):
     """
     Функция для получения среднего значения зарплаты из диапазона
     """
-    if payment is not None:
+    if type(payment) != int:
         if payment['currency'] == 'USD':    #Переводим доллар в рубли(пока так)
             if payment['to'] is not None:
                 payment['to'] *= 80
@@ -52,6 +52,8 @@ def get_avg_salary_range(payment):
         if payment['from'] == None:
             return payment['to']
         return (payment['to'] + payment['from']) / 2    # Считаем среднее значение зарплаты из значений to и from
+    else:
+        return payment
 
 def sorting(vacancies):
     """

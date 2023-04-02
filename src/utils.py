@@ -22,15 +22,17 @@ class JSONSaver:
 
 def main():
     hh = HH('python', 35)
-    sj = SuperJob('java', 2)
+    sj = SuperJob('python', 25)
     hh_vacancies = hh.get_request()
     sj_vacancies = sj.get_request()
+    all = hh_vacancies + sj_vacancies
     json_saver = JSONSaver()
-    json_saver.add_vacancy(hh_vacancies)
+    json_saver.add_vacancy(all)
     vacancies = json_saver.data_file()
-    for v in vacancies:
-        vacancy = Vacancy(v['name'], v['url'], v['description'], v['payment'])
-    #print(vacancy)
+    #for v in vacancies:
+        #vacancy = Vacancy(v['name'], v['url'], v['description'], v['payment'])
+        #print(v)
     sorted_vacancies = sorting(vacancies)
+
     for v in sorted_vacancies:
         print(v['payment'])
