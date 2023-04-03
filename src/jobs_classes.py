@@ -59,6 +59,12 @@ class FileOperations:
                 if payment['from'] is not None:
                     payment['from'] *= 85
                 payment['currency'] = 'RUR(from EUR(85))'
+            if payment['currency'] == 'KZT':
+                if payment['to'] is not None:
+                    payment['to'] *= 0.15
+                if payment['from'] is not None:
+                    payment['from'] *= 0.15
+                payment['currency'] = 'RUR(from KZT(0,15))'
             if payment['to'] == None:
                 return payment['from']
             if payment['from'] == None:
