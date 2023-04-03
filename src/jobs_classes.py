@@ -1,41 +1,33 @@
+import json
+
+
 class Vacancy:
-    __slots__ = ('vacancies')
-    def __init__(self, vacancies):
-        self.vacancies = vacancies
-        #self.name = name
-        #self.url = url
-        #self.description = description    #Описание вакансии
-        #self.payment = payment
+    __slots__ = ('name', 'url', 'description', 'payment')
+    def __init__(self, name: str, url: str, description: str, payment):
+        self.name = name
+        self.url = url
+        self.description = description    #Описание вакансии
+        self.payment = payment
 
     def __str__(self):
-        return f"Name: {self.name}, Salary: {self.payment}, Description: {self.description}, Url: {self.url}"
-
-
-class CountMixin:
-
-    @property
-    def get_count_of_vacancy(self):
-        """
-        Вернуть количество вакансий от текущего сервиса.
-        Получать количество необходимо динамически из файла.
-        """
-        pass
+        return f"Name: {self.name}, Url: {self.url}, Description: {self.description}, Payment: {self.payment}"
 
 
 
-class HHVacancy(Vacancy):  # add counter mixin
-    """ HeadHunter Vacancy """
-
-    def __str__(self):
-        return f'HH: {self.description}, зарплата: {self.payment} руб/мес'
-
-
-class SJVacancy(Vacancy):  # add counter mixin
-    """ SuperJob Vacancy """
-
-    def __str__(self):
-        return f'SJ: {self.description}, зарплата: {self.payment} руб/мес'
-
+def filter_vacancies(vacancies, filter_words):
+    """
+    Функция фильтрации вакансий по ключевым словам пользователя
+    :param hh_vacancies:
+    :param sj_vacancies:
+    :param filter_words:
+    :return:
+    """
+    list_vacancies = []
+    for i in vacancies:
+        if i['description'] is not None:
+            if filter_words.lower() in i['description'].lower():
+                list_vacancies.append(i)
+    return list_vacancies
 
 def get_avg_salary_range(payment):
     """
@@ -78,18 +70,3 @@ def get_top(sorted_vacancies, top_count):
         else:
             break
     return top
-
-def filter_vacancies(vacancies, filter_words):
-    """
-    Функция фильтрации вакансий по ключевым словам пользователя
-    :param hh_vacancies:
-    :param sj_vacancies:
-    :param filter_words:
-    :return:
-    """
-    list_vacancies = []
-    for i in vacancies:
-        if i['description'] is not None:
-            if filter_words.lower() in i['description'].lower():
-                list_vacancies.append(i)
-    return list_vacancies
