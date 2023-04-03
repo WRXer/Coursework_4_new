@@ -1,10 +1,19 @@
 from src.engine_classes import HH, SuperJob
-from src.jobs_classes import Vacancy, sorting, get_top,filter_vacancies
+from src.jobs_classes import Vacancy, FileOperations
 from src.json_class import JSONSaver
 
 
+def platforms():
+    pass
+
+
+
+
+
 def main():
+    print("Привествую! Это программа по парсингу и обработке данных с сайта вакансий hh.ru  superjob.ru")
     #platforms = all
+    top_count = 0
     search_query = 'python'
     hh = HH(search_query)
     sj = SuperJob(search_query)
@@ -15,16 +24,15 @@ def main():
     #json_saver.add_vacancies()
     vacancies = json_saver.data_file()
     filter_words = "django"
-    filtered_vacancies = filter_vacancies(vacancies, filter_words)
-    if not filtered_vacancies:
+    #fo = FileOperations(vacancies, filter_words)
+    user_vacancies = FileOperations(vacancies, filter_words, top_count).filter_vacancies()
+    if not user_vacancies:
         print("Нет вакансий, соответствующих заданным критериям.")
         return
+    user_vacancies = FileOperations(vacancies).sorting()
+    top_count = 10
+    user_vacancies = FileOperations(vacancies, top_count).get_top()
 
-    #for v in filtered_vacancies:
-    #    vacancy = Vacancy(v['name'], v['url'], v['description'], v['payment'])
-    #    print(str(vacancy))
-    sorted_vacancies = sorting(filtered_vacancies)
-    top_count = 30
-    top_vacancies  = get_top(sorted_vacancies, top_count)
-    for t in top_vacancies:
-        print(t)
+    #for t in user_vacancies:
+    #    print(t['payment'])
+

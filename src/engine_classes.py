@@ -8,6 +8,7 @@ class Engine(ABC):
         self._search_query = search_query
         self._per_page = 100
 
+
     @abstractmethod
     def get_request(self):
         pass
@@ -46,7 +47,7 @@ class SuperJob(Engine):
         super().__init__(search_query)
         self.vacancies_data = []
         self.url = "https://api.superjob.ru/2.0/vacancies/"
-        self.headers = {'X-Api-App-Id': token}
+        self.headers = {'X-Api-App-Id': token}   #token -> api_key
         self.params = {'keyword': self._search_query, 'page': 1, 'count': self._per_page}
 
     def get_request(self) -> list:

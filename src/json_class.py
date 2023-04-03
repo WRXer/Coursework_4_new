@@ -19,6 +19,7 @@ class File(ABC):
     def delete_vacancies(self):
         pass
 
+
 class JSONSaver(File):
     def __init__(self, vacancies_data: list):
         super().__init__(vacancies_data)
