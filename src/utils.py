@@ -4,35 +4,90 @@ from src.json_class import JSONSaver
 
 
 def platforms():
-    pass
+    """
+    Функция выбора платформы
+    :return:
+    """
+    print("Выберите платформу для поиска вакансии: \nВведите цифру '1' для Hh.ru\nВведите цифру '2' для Superjob.ru\nВведите цифру '3' для всех доступных платформ")
+    return 1
+    while True:
+        platform = input()
+        if platform == '1':
+            print('Вы выбрали платформу Hh.ru')
+            return 1
+        elif platform == '2':
+            print('Вы выбрали платформу Superjob.ru')
+            return 2
+        elif platform == '3':
+            print('Вы выбрали все доступные программе платформы ')
+            return 3
+        else:
+            print("Неверное значение! Введите цифру от 1-3!")
 
+def search_query():
+    """
+    Функция получения поискового запроса
+    :return:
+    """
+    #return input("Введите поисковый запрос: ")
+    return "python"
 
+def get_user_request():
+    """
+    Функция поиска заданного запроса на выбранной платформе
+    :return:
+    """
+    u_p = platforms()
+    s_q = search_query()
+    if u_p == 1:
+        hh = HH(s_q)    #hh = HH(search_query)
+        hh_vacancies = hh.get_request()
+        return hh.get_request()
+    elif u_p == 2:
+        sj = SuperJob(s_q)    #sj = SuperJob(search_query)
+        return sj.get_request()
+    elif u_p == 3:
+        hh = HH(s_q)
+        hh_vacancies = hh.get_request()
+        sj = SuperJob(s_q)
+        sj_vacancies = sj.get_request()
+        return hh_vacancies + sj_vacancies
 
+def work_with_file(vacancies):
+    print("Меню работы с данными: \nНажмите '1', если хотите сохранить файл и выйти\nНажмите '2' для фильтрации вакансий по ключевому слову\nНажмите '3' для сортировке вакансий по зп\nНажмите '4' для отсортировки топ N-количества вакансий(задаете сами)")
+    while True:
+        #user = input()
+        user = '3'
+        if user == '1':
+            pass
+        elif user == '2':
+            #filter_words = input("Введите ключевое слово для фильтрации вакансий: ")
+            filter_words = "django"
+            user_vacancies = FileOperations(vacancies, filter_words, top_count=0).filter_vacancies()   #Фильтрация вакансий по ключевому слову
+            if not user_vacancies:
+                print("Нет вакансий, соответствующих заданным критериям.")
+                return
+            return user_vacancies
+        elif user == '3':
+            user_vacancies = FileOperations(vacancies).sorting()    #Сортировка полученных данных
+            return user_vacancies
+        elif user == '4':
+            #top_count = input()    #Доработать на условие цифры
+            top_count = 5
+            user_vacancies = FileOperations(vacancies, top_count).get_top()    #Отсортировка топ N-количества вакансий
+            return user_vacancies
+        else:
+            print("Неверное значение! Введите цифру от 1 - 4!")
 
 
 def main():
     print("Привествую! Это программа по парсингу и обработке данных с сайта вакансий hh.ru  superjob.ru")
-    #platforms = all
-    top_count = 0
-    search_query = 'python'
-    hh = HH(search_query)
-    sj = SuperJob(search_query)
-    hh_vacancies = hh.get_request()
-    sj_vacancies = sj.get_request()
-    vacancies_data = hh_vacancies + sj_vacancies
+    vacancies_data = get_user_request()    #Список вакансий по запросу пользователя
     json_saver = JSONSaver(vacancies_data)
     #json_saver.add_vacancies()
     vacancies = json_saver.data_file()
-    filter_words = "django"
-    #fo = FileOperations(vacancies, filter_words)
-    user_vacancies = FileOperations(vacancies, filter_words, top_count).filter_vacancies()
-    if not user_vacancies:
-        print("Нет вакансий, соответствующих заданным критериям.")
-        return
-    user_vacancies = FileOperations(vacancies).sorting()
-    top_count = 10
-    user_vacancies = FileOperations(vacancies, top_count).get_top()
+    user_vacancies = work_with_file(vacancies)
 
-    #for t in user_vacancies:
-    #    print(t['payment'])
+    for t in user_vacancies:
+        print(t['payment'])
 
