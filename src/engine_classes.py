@@ -4,9 +4,9 @@ import requests
 
 
 class Engine(ABC):
-    def __init__(self, search_text='python', per_page=3):
-        self.search_text = search_text
-        self.per_page = per_page
+    def __init__(self, search_query: str) -> None:
+        self._search_query = search_query
+        self._per_page = 100
 
     @abstractmethod
     def get_request(self):
@@ -14,40 +14,54 @@ class Engine(ABC):
 
 
 class HH(Engine):
-    def get_request(self):
-        vacancies_data = []
-        url = "https://api.hh.ru/vacancies"
-        params = {"text": self.search_text,"per_page": self.per_page}
-        response = requests.get(url, params)
+    def __init__(self, search_query: str):
+        super().__init__(search_query)
+        self.vacancies_data = []
+        self.url = "https://api.hh.ru/vacancies"
+        self.params = {"text": self._search_query, "per_page": self._per_page}
+
+    def get_request(self) -> list:
+        """
+        Функция парсинга данных с ХХ
+        :return:
+        """
+        response = requests.get(self.url, self.params)
         if response.status_code == 200:
             vacancies = response.json()["items"]
             for vacancy in vacancies:
                 if vacancy['salary'] is not None:
                     vacancy_data = {'name': vacancy['name'], 'url': vacancy['url'],
                                     'description': vacancy['snippet']['requirement'], 'payment': vacancy['salary']}
-                    vacancies_data.append(vacancy_data)
+                    self.vacancies_data.append(vacancy_data)
                 else:
                     continue
         else:
             print("Error:", response.status_code)
-        return vacancies_data
+        return self.vacancies_data
         #vacancy['salary'] зарплата
         #vacancy['snippet'] описание
 
 class SuperJob(Engine):
-     def get_request(self):
-        vacancies_data = []
-        url = "https://api.superjob.ru/2.0/vacancies/"
-        headers = {'X-Api-App-Id': token}
-        params = {'keyword': self.search_text, 'page': 1, 'count': self.per_page}
-        response = requests.get(url,headers=headers, params=params)
+    def __init__(self, search_query: str):
+        super().__init__(search_query)
+        self.vacancies_data = []
+        self.url = "https://api.superjob.ru/2.0/vacancies/"
+        self.headers = {'X-Api-App-Id': token}
+        self.params = {'keyword': self._search_query, 'page': 1, 'count': self._per_page}
+
+    def get_request(self) -> list:
+        """
+        Функция парсинга данных с СЖ
+        :return:
+        """
+        response = requests.get(self.url, headers=self.headers, params=self.params)
         if response.status_code == 200:
             vacancies = response.json()["objects"]
             for vacancy in vacancies:
                 vacancy_data = {'name': vacancy['profession'], 'url': vacancy['link'], 'description': vacancy['candidat'], 'payment': vacancy['payment_from']}
-                vacancies_data.append(vacancy_data)
+                self.vacancies_data.append(vacancy_data)
         #vacancy['candidat'] описание
         #vacancy['payment_from'] зарплата
         else:
             print("Error:", response.status_code)
-        return vacancies_data
+        return self.vacancies_data

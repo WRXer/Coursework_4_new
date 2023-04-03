@@ -1,10 +1,11 @@
 class Vacancy:
-    __slots__ = ('name', 'url', 'description', 'payment')
-    def __init__(self, name: str, url: str, description: str, payment: str):
-        self.name = name
-        self.url = url
-        self.description = description    #Описание вакансии
-        self.payment = payment
+    __slots__ = ('vacancies')
+    def __init__(self, vacancies):
+        self.vacancies = vacancies
+        #self.name = name
+        #self.url = url
+        #self.description = description    #Описание вакансии
+        #self.payment = payment
 
     def __str__(self):
         return f"Name: {self.name}, Salary: {self.payment}, Description: {self.description}, Url: {self.url}"
@@ -55,17 +56,19 @@ def get_avg_salary_range(payment):
     else:
         return payment
 
-def sorting(vacancies):
+def sorting(filtered_vacancies):
     """
     Сортировка вакансий по зарплате
     :param vacancies:
     :return:
     """
-    sorted_data = sorted(vacancies, key=lambda x: get_avg_salary_range(x['payment']), reverse=True)
+    sorted_data = sorted(filtered_vacancies, key=lambda x: get_avg_salary_range(x['payment']), reverse=True)
     return sorted_data
 
 def get_top(sorted_vacancies, top_count):
-    """ Должен возвращать {top_count} записей из вакансий по зарплате (iter, next magic methods) """
+    """
+    Должен возвращать {top_count} записей из вакансий по зарплате (iter, next magic methods)
+    """
     top = []
     counter = 0
     for v in sorted_vacancies:
@@ -76,7 +79,7 @@ def get_top(sorted_vacancies, top_count):
             break
     return top
 
-def filter_vacancies(hh_vacancies, sj_vacancies, filter_words):
+def filter_vacancies(vacancies, filter_words):
     """
     Функция фильтрации вакансий по ключевым словам пользователя
     :param hh_vacancies:
@@ -85,11 +88,7 @@ def filter_vacancies(hh_vacancies, sj_vacancies, filter_words):
     :return:
     """
     list_vacancies = []
-    for i in hh_vacancies:
-        if i['description'] is not None:
-            if filter_words.lower() in i['description'].lower():
-                list_vacancies.append(i)
-    for i in sj_vacancies:
+    for i in vacancies:
         if i['description'] is not None:
             if filter_words.lower() in i['description'].lower():
                 list_vacancies.append(i)
