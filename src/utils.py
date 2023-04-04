@@ -67,8 +67,8 @@ def work_with_file(vacancies):
         if user == '1':
             return vacancies
         elif user == '2':
-            #filter_words = input("Введите ключевое слово для фильтрации вакансий: ")
-            filter_words = "django"
+            filter_words = input("Введите ключевое слово для фильтрации вакансий: ")
+            #filter_words = "django"
             vacancies = FileOperations(vacancies, filter_words, top_count=0).filter_vacancies()   #Фильтрация вакансий по ключевому слову
             if not vacancies:
                 print("Нет вакансий, соответствующих заданным критериям.")
