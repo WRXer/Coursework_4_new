@@ -29,8 +29,8 @@ def search_query():
     Функция получения поискового запроса
     :return:
     """
-    #return input("Введите поисковый запрос: ")
-    return "python"
+    return input("Введите поисковый запрос: ")
+    #return "python"
 
 def get_user_request():
     """
