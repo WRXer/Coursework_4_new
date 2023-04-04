@@ -89,10 +89,22 @@ def work_with_file(vacancies):
         else:
             print("Неверное значение! Введите цифру от 1 - 4!")
 
+def check_vacancies_data():
+    """
+    Функция проверки найденных по запросу вакансий
+    :return:
+    """
+    while True:
+        vacancies_data = get_user_request()    #Список вакансий по запросу пользователя
+        for v in vacancies_data:
+            if v is not None:
+                return vacancies_data
+        print("Ваш запрос не найден на платформе! ")
+
 
 def main():
     print("Привествую! Это программа по парсингу и обработке данных с сайта вакансий hh.ru  superjob.ru")
-    vacancies_data = get_user_request()    #Список вакансий по запросу пользователя
+    vacancies_data = check_vacancies_data()
     json_saver = JSONSaver(vacancies_data)
     json_saver.add_vacancies()
     vacancies = json_saver.data_file()
