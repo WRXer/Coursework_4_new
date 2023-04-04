@@ -54,28 +54,33 @@ def get_user_request():
         return hh_vacancies + sj_vacancies
 
 def work_with_file(vacancies):
-    print("Меню работы с данными: \nНажмите '1', если хотите сохранить файл и выйти\nНажмите '2' для фильтрации вакансий по ключевому слову\nНажмите '3' для сортировке вакансий по зп\nНажмите '4' для отсортировки топ N-количества вакансий(задаете сами)")
     while True:
-        #user = input()
-        user = '3'
+        print("Меню работы с данными: \nНажмите '1', если хотите сохранить файл и выйти\nНажмите '2' для фильтрации вакансий по ключевому слову\nНажмите '3' для сортировке вакансий по зп\nНажмите '4' для отсортировки топ N-количества вакансий(задаете сами)")
+
+        user = input()
+        #user = '3'
         if user == '1':
-            pass
+            return vacancies
         elif user == '2':
             #filter_words = input("Введите ключевое слово для фильтрации вакансий: ")
             filter_words = "django"
-            user_vacancies = FileOperations(vacancies, filter_words, top_count=0).filter_vacancies()   #Фильтрация вакансий по ключевому слову
-            if not user_vacancies:
+            vacancies = FileOperations(vacancies, filter_words, top_count=0).filter_vacancies()   #Фильтрация вакансий по ключевому слову
+            if not vacancies:
                 print("Нет вакансий, соответствующих заданным критериям.")
                 return
-            return user_vacancies
+            print("Операция выполнена!")
         elif user == '3':
-            user_vacancies = FileOperations(vacancies).sorting()    #Сортировка полученных данных
-            return user_vacancies
+            vacancies = FileOperations(vacancies).sorting()    #Сортировка полученных данных
+            print("Операция выполнена!")
         elif user == '4':
-            #top_count = input()    #Доработать на условие цифры
-            top_count = 5
-            user_vacancies = FileOperations(vacancies, top_count).get_top()    #Отсортировка топ N-количества вакансий
-            return user_vacancies
+            while True:
+                try:
+                    top_count = float(input("Введите количество вакансий: "))
+                    vacancies = FileOperations(vacancies, top_count).get_top()  # Отсортировка топ N-количества вакансий
+                    print("Операция выполнена!")
+                    break
+                except ValueError:
+                    print("Вы ввели не число. Пожалуйста, попробуйте снова.")
         else:
             print("Неверное значение! Введите цифру от 1 - 4!")
 
@@ -84,10 +89,8 @@ def main():
     print("Привествую! Это программа по парсингу и обработке данных с сайта вакансий hh.ru  superjob.ru")
     vacancies_data = get_user_request()    #Список вакансий по запросу пользователя
     json_saver = JSONSaver(vacancies_data)
-    #json_saver.add_vacancies()
+    json_saver.add_vacancies()
     vacancies = json_saver.data_file()
     user_vacancies = work_with_file(vacancies)
-
-    for t in user_vacancies:
-        print(t['payment'])
-
+    JSONSaver(user_vacancies).get_user_file()
+    print("Данные сохранены и записаны в файл 'user_data.json'")
