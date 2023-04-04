@@ -9,7 +9,7 @@ def platforms():
     :return:
     """
     print("Выберите платформу для поиска вакансии: \nВведите цифру '1' для Hh.ru\nВведите цифру '2' для Superjob.ru\nВведите цифру '3' для всех доступных платформ")
-    return 1
+    #return 3
     while True:
         platform = input()
         if platform == '1':

@@ -57,7 +57,7 @@ class JSONSaver(File):
         """
         Функция записи файла с вакансиями, после операций пользователя
         """
-        with open("user_file.json", 'w', encoding='utf-8') as outfile:
+        with open("user_data.json", 'w', encoding='utf-8') as outfile:
             json.dump(self._data, outfile, indent=1, ensure_ascii=False)
 
 
