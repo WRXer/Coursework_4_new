@@ -1,16 +1,29 @@
-import json
-
-
 class Vacancy:
-    __slots__ = ('name', 'url', 'description', 'payment')
+    __slots__ = ('__name', '__url', '__description', '__payment')
     def __init__(self, name: str, url: str, description: str, payment):
-        self.name = name
-        self.url = url
-        self.description = description    #Описание вакансии
-        self.payment = payment
+        self.__name = name
+        self.__url = url
+        self.__description = description    #Описание вакансии
+        self.__payment = payment
+
+    @property
+    def name(self):
+        return self.__name
+
+    @property
+    def url(self):
+        return self.__url
+
+    @property
+    def requirement(self):
+        return self.__description
+
+    @property
+    def town(self):
+        return self.__payment
 
     def __str__(self):
-        return f"Name: {self.name}, Url: {self.url}, Description: {self.description}, Payment: {self.payment}"
+        return f"Name: {self.__name}, Url: {self.__url}, Description: {self.__description}, Payment: {self.__payment}"
 
 
 class FileOperations:
