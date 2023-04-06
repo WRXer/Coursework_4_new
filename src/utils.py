@@ -104,12 +104,12 @@ def check_vacancies_data():
 
 def main():
     print("Привествую! Это программа по парсингу и обработке данных с сайта вакансий hh.ru  superjob.ru")
-    #vacancies_data = check_vacancies_data()
-    #json_saver = JSONSaver(vacancies_data)
-    #json_saver.add_vacancies()
-    #vacancies = json_saver.data_file()
-    #user_vacancies = work_with_file(vacancies)
-    #JSONSaver(user_vacancies).get_user_file()
+    vacancies_data = check_vacancies_data()
+    json_saver = JSONSaver(vacancies_data)
+    json_saver.add_vacancies()
+    vacancies = json_saver.data_file()
+    user_vacancies = work_with_file(vacancies)
+    JSONSaver(user_vacancies).get_user_file()
     print("Данные сохранены и записаны в файл 'user_data.json'")
     vacancy = Vacancy("Python", "<https://hh.ru/vacancy/123456>", "Требования: опыт работы от 3 лет...", "100000")
     str(Vacancy)

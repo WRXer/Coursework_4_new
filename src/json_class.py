@@ -67,7 +67,8 @@ class JSONSaver(File):
         with open('data_file.json', 'w') as outfile:
             json.dump(vacancies, outfile, indent=1, ensure_ascii=False)
     def add_vacancy(self, vacancy):
-        print(vacancy.payment)
-        vacancies = {'name': vacancy.name, 'url': vacancy.url, 'description': vacancy.description, 'payment': vacancy.payment}
-        with open('data_file.json', 'w') as outfile:
+        with open("data_file.json", 'r', encoding='utf-8') as outfile:
+            vacancies = json.load(outfile)
+        vacancie_up = {'name': vacancy.name, 'url': vacancy.url, 'description': vacancy.description, 'payment': vacancy.payment}
+        with open('data_file.json', 'w', encoding='utf-8') as outfile:
             json.dump(vacancies, outfile, indent=1, ensure_ascii=False)
