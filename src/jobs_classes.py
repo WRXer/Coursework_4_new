@@ -25,6 +25,11 @@ class Vacancy:
     def __str__(self):
         return f"Name: {self.__name}, Url: {self.__url}, Description: {self.__description}, Payment: {self.__payment}"
 
+    def __lt__(self, other):
+        return int(self.payment) < int(other.payment)
+
+    def __le__(self, other):
+        return int(self.payment) <= int(other.payment)
 
 class FileOperations:
     def __init__(self, vacancies, filter_words=None, top_count=0):
