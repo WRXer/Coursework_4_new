@@ -1,17 +1,37 @@
-import json
-
-
 class Vacancy:
-    __slots__ = ('name', 'url', 'description', 'payment')
-    def __init__(self, name: str, url: str, description: str, payment):
-        self.name = name
-        self.url = url
-        self.description = description    #Описание вакансии
-        self.payment = payment
+    __slots__ = ('__name', '__url', '__description', '__payment')
+    def __init__(self, name: str, url: str, description: str, payment: str):
+        if int(payment) < 0:
+            raise ValueError("Payment cannot be negative")
+        self.__name = name
+        self.__url = url
+        self.__description = description    #Описание вакансии
+        self.__payment = payment
+
+    @property
+    def name(self):
+        return self.__name
+
+    @property
+    def url(self):
+        return self.__url
+
+    @property
+    def description(self):
+        return self.__description
+
+    @property
+    def payment(self):
+        return self.__payment
 
     def __str__(self):
-        return f"Name: {self.name}, Url: {self.url}, Description: {self.description}, Payment: {self.payment}"
+        return f"Name: {self.__name}, Url: {self.__url}, Description: {self.__description}, Payment: {self.__payment}"
 
+    def __lt__(self, other):
+        return int(self.__payment) < int(other.__payment)
+
+    def __le__(self, other):
+        return int(self.__payment) <= int(other.__payment)
 
 class FileOperations:
     def __init__(self, vacancies, filter_words=None, top_count=0):
