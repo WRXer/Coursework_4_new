@@ -60,13 +60,29 @@ class JSONSaver(File):
         with open("user_data.json", 'w', encoding='utf-8') as outfile:
             json.dump(self._data, outfile, indent=1, ensure_ascii=False)
 
-    def delete_vacancy(self, name):
-        with open('data_file.json', 'r') as outfile:
+    def delete_vacancy(self, vacancy):
+        """
+        Удаление вакансии по ключу
+        :param vacancy:
+        :return:
+        """
+        with open('data_file.json', 'r', encoding='utf-8') as outfile:
             vacancies = json.load(outfile)
-        del vacancies[name]
-        with open('data_file.json', 'w') as outfile:
-            json.dump(vacancies, outfile, indent=1, ensure_ascii=False)
+            vacancies_n = []
+            for v in vacancies:
+                z = v['name'].lower()
+                x = z.split(" ")
+                if vacancy.name.lower() not in x:
+                    vacancies_n.append(v)
+        with open('data_file.json', 'w', encoding='utf-8') as outfile:
+            json.dump(vacancies_n, outfile, indent=1, ensure_ascii=False)
+
     def add_vacancy(self, vacancy):
+        """
+        Добавление одной вакансии
+        :param vacancy:
+        :return:
+        """
         with open("data_file.json", 'r', encoding='utf-8') as outfile:
             vacancies = json.load(outfile)
         vacancies.append({'name': vacancy.name, 'url': vacancy.url, 'description': vacancy.description, 'payment': vacancy.payment})
