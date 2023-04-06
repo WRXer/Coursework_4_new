@@ -1,6 +1,8 @@
 class Vacancy:
     __slots__ = ('__name', '__url', '__description', '__payment')
     def __init__(self, name: str, url: str, description: str, payment):
+        if payment < 0:
+            raise ValueError("Payment cannot be negative")
         self.__name = name
         self.__url = url
         self.__description = description    #Описание вакансии
