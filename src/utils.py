@@ -30,7 +30,7 @@ def search_query():
     :return:
     """
     return input("Введите поисковый запрос: ")
-    #return "python"
+    #return "java"
 
 def get_user_request():
     """
@@ -63,7 +63,7 @@ def work_with_file(vacancies):
         print("Меню работы с данными: \nНажмите '1', если хотите сохранить файл и выйти\nНажмите '2' для фильтрации вакансий по ключевому слову\nНажмите '3' для сортировке вакансий по зп\nНажмите '4' для отсортировки топ N-количества вакансий(задаете сами)")
 
         user = input()
-        #user = '3'
+        #user = '1'
         if user == '1':
             return vacancies
         elif user == '2':
@@ -104,10 +104,13 @@ def check_vacancies_data():
 
 def main():
     print("Привествую! Это программа по парсингу и обработке данных с сайта вакансий hh.ru  superjob.ru")
-    vacancies_data = check_vacancies_data()
-    json_saver = JSONSaver(vacancies_data)
-    json_saver.add_vacancies()
-    vacancies = json_saver.data_file()
-    user_vacancies = work_with_file(vacancies)
-    JSONSaver(user_vacancies).get_user_file()
+    #vacancies_data = check_vacancies_data()
+    #json_saver = JSONSaver(vacancies_data)
+    #json_saver.add_vacancies()
+    #vacancies = json_saver.data_file()
+    #user_vacancies = work_with_file(vacancies)
+    #JSONSaver(user_vacancies).get_user_file()
     print("Данные сохранены и записаны в файл 'user_data.json'")
+    vacancy = Vacancy("Python", "<https://hh.ru/vacancy/123456>", "Требования: опыт работы от 3 лет...", "100000")
+    str(Vacancy)
+    JSONSaver("data_file.json").add_vacancy(vacancy)

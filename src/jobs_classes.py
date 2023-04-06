@@ -1,7 +1,7 @@
 class Vacancy:
     __slots__ = ('__name', '__url', '__description', '__payment')
-    def __init__(self, name: str, url: str, description: str, payment):
-        if payment < 0:
+    def __init__(self, name: str, url: str, description: str, payment: str):
+        if int(payment) < 0:
             raise ValueError("Payment cannot be negative")
         self.__name = name
         self.__url = url
@@ -17,11 +17,11 @@ class Vacancy:
         return self.__url
 
     @property
-    def requirement(self):
+    def description(self):
         return self.__description
 
     @property
-    def town(self):
+    def payment(self):
         return self.__payment
 
     def __str__(self):

@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-
+from src.jobs_classes import Vacancy
 
 import json
 
@@ -60,4 +60,14 @@ class JSONSaver(File):
         with open("user_data.json", 'w', encoding='utf-8') as outfile:
             json.dump(self._data, outfile, indent=1, ensure_ascii=False)
 
-
+    def delete_vacancy(self, name):
+        with open('data_file.json', 'r') as outfile:
+            vacancies = json.load(outfile)
+        del vacancies[name]
+        with open('data_file.json', 'w') as outfile:
+            json.dump(vacancies, outfile, indent=1, ensure_ascii=False)
+    def add_vacancy(self, vacancy):
+        print(vacancy.payment)
+        vacancies = {'name': vacancy.name, 'url': vacancy.url, 'description': vacancy.description, 'payment': vacancy.payment}
+        with open('data_file.json', 'w') as outfile:
+            json.dump(vacancies, outfile, indent=1, ensure_ascii=False)
